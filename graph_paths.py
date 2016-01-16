@@ -1,4 +1,13 @@
 # Graphs - path search problems implemented in python
+import time
+
+def time_it(func):
+  def dec_fun(*args, **kwargs):
+    s_time = time.time()
+    ret = func(*args, **kwargs)
+    print "Time took: %d" % (time.time() - s_time)
+    return ret
+  return dec_fun
 
 class Graph(object):
   def __init__(self, graph):
@@ -56,6 +65,13 @@ class Graph(object):
             short_path = new_path
     return short_path
 
+@time_it
+def compute_paths(graph1):
+  graph = Graph(graph1)
+  print graph.get_src_to_dest_path('A', 'E')
+  print graph.get_all_src_to_dest_paths('A', 'E')
+  print graph.get_shortest_src_to_dest_path('A', 'E')
+
 if __name__ == "__main__":
   graph1 = { 'A': ['B', 'C'],
       'B': ['D', 'E'],
@@ -64,7 +80,4 @@ if __name__ == "__main__":
       'E': ['B'],
       'F': ['G'],
       'H': [] }
-  graph = Graph(graph1)
-  print graph.get_src_to_dest_path('A', 'E')
-  print graph.get_all_src_to_dest_paths('A', 'E')
-  print graph.get_shortest_src_to_dest_path('A', 'E')
+  compute_paths(graph1)
