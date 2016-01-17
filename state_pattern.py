@@ -1,8 +1,9 @@
 # Example python module with state machine
 
-class State(object):
-  def __init__(self, state):
-    self.cur_state = state
+class StateMachine(object):
+  def __init__(self, state_list):
+    self.state_list = state_list
+    self.create_state_machine(state_list)
 
   def execute(self):
     if self.cur_state == None:
@@ -18,7 +19,14 @@ class State(object):
       new_state = self.cur_state.name if self.cur_state else None
       print "Changing state: %s to %s" % (old_state, new_state)
 
-class States(State):
+  def create_state_machine(self, state_list):
+    prev_state = None
+    for state, tasks in state_list[::-1]:
+      prev_state = States(state, tasks, prev_state)
+    self.cur_state = prev_state
+
+
+class States(StateMachine):
   def __init__(self, state_name, task_list, next_state):
     self.cur_task = 0
     self.name = state_name
@@ -29,22 +37,15 @@ class States(State):
   def next(self):
     return self.next_state
 
-def create_state_machine(state_list):
-  prev_state = None
-  for state, tasks in state_list[::-1]:
-    prev_state = States(state, tasks, prev_state)
-  return prev_state
-
 if __name__ == "__main__":
   state_list = [
       ("State1", ["State1_t1", "State1_t2", "State1_t3", "State1_t4"]),
       ("State2", ["State2_t1", "State2_t2", "State2_t3"]),
       ("State3", ["State3_t1", "State3_t2", "State3_t3", "State3_t4"])
     ]
-  sm = create_state_machine(state_list)
-  s = State(sm)
-  while s.cur_state:
-    s.execute()
+  sm = StateMachine(state_list)
+  while sm.cur_state:
+    sm.execute()
 
 """
 Output:
