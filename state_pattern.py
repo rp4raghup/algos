@@ -48,3 +48,21 @@ class State_3(State):
 s = State_1()
 while s.cur_state:
   s.execute()
+  
+"""
+Output: 
+State: State1 . Task: State1_t1
+State: State1 . Task: State1_t2
+State: State1 . Task: State1_t3
+State: State1 . Task: State1_t4
+Changing state: State1 to State2
+State: State1 . Task: State1_t1
+State: State1 . Task: State1_t2
+State: State1 . Task: State1_t3
+State: State1 . Task: State1_t4
+Changing state: State1 to State3
+State: State1 . Task: State1_t1
+State: State1 . Task: State1_t2
+State: State1 . Task: State1_t3
+State: State1 . Task: State1_t4
+"""
