@@ -1,17 +1,19 @@
 # Example python module with state machine
 class State(object):
+  def __init__(self, state):
+    self.cur_state = state
+
   def execute(self):
     if self.cur_state == None:
       return
-    print "State:", self.name, ". Task:", self.tasks[self.cur_task]
+    print "State:", self.cur_state.name, ", Task:", self.cur_state.tasks[self.cur_state.cur_task]
     return self.next_task()
 
   def next_task(self):
-    self.cur_task += 1
-    if self.cur_task == len(self.tasks):
-      self.cur_task = 0
+    self.cur_state.cur_task += 1
+    if self.cur_state.cur_task == len(self.cur_state.tasks):
+      old_state = self.cur_state.name
       self.cur_state = self.cur_state.next()
-      old_state = self.name
       new_state = self.cur_state.name if self.cur_state else None
       print "Changing state: %s to %s" % (old_state, new_state)
 
@@ -45,24 +47,24 @@ class State_3(State):
   def next(self):
     return None
 
-s = State_1()
+s = State(State_1())
 while s.cur_state:
   s.execute()
-  
+
 """
-Output: 
-State: State1 . Task: State1_t1
-State: State1 . Task: State1_t2
-State: State1 . Task: State1_t3
-State: State1 . Task: State1_t4
+Output:
+State: State1 , Task: State1_t1
+State: State1 , Task: State1_t2
+State: State1 , Task: State1_t3
+State: State1 , Task: State1_t4
 Changing state: State1 to State2
-State: State1 . Task: State1_t1
-State: State1 . Task: State1_t2
-State: State1 . Task: State1_t3
-State: State1 . Task: State1_t4
-Changing state: State1 to State3
-State: State1 . Task: State1_t1
-State: State1 . Task: State1_t2
-State: State1 . Task: State1_t3
-State: State1 . Task: State1_t4
+State: State2 , Task: State2_t1
+State: State2 , Task: State2_t2
+State: State2 , Task: State2_t3
+Changing state: State2 to State3
+State: State3 , Task: State3_t1
+State: State3 , Task: State3_t2
+State: State3 , Task: State3_t3
+State: State3 , Task: State3_t4
+Changing state: State3 to None
 """
