@@ -3,7 +3,7 @@
 class StateMachine(object):
   def __init__(self, state_list):
     self.state_list = state_list
-    self.create_state_machine(state_list)
+    self.cur_state = self.create_state_machine(state_list)
 
   def execute(self):
     if self.cur_state == None:
@@ -23,7 +23,7 @@ class StateMachine(object):
     prev_state = None
     for state, tasks in state_list[::-1]:
       prev_state = States(state, tasks, prev_state)
-    self.cur_state = prev_state
+    return prev_state
 
 
 class States(StateMachine):
